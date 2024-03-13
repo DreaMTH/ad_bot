@@ -1,0 +1,19 @@
+{
+  "name": "a_bot",
+  "version": "1.0.0",
+  "description": "discord bot for private server",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DreaMTH/ad_bot.git"
+  },
+  "author": "dreamth",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DreaMTH/ad_bot/issues"
+  },
+  "homepage": "https://github.com/DreaMTH/ad_bot#readme"
+}
