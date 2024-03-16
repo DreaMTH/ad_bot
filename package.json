@@ -2,9 +2,9 @@
   "name": "a_bot",
   "version": "1.0.0",
   "description": "discord bot for private server",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ."
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/DreaMTH/ad_bot/issues"
   },
-  "homepage": "https://github.com/DreaMTH/ad_bot#readme"
+  "homepage": "https://github.com/DreaMTH/ad_bot#readme",
+  "dependencies": {
+    "@discordjs/rest": "^2.2.0",
+    "chalk": "^4.1.2",
+    "discord-api-types": "^0.37.74",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5"
+  }
 }
