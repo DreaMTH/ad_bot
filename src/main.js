@@ -1,6 +1,7 @@
 require('dotenv').config();
 
-const token = process.env;
+const { token } = process.env;
+console.log(token);
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const fs = require('fs');
 
@@ -13,7 +14,7 @@ for (const folder of functionFolder) {
 	const functionFiles = fs
 		.readdirSync(`./src/functions/${folder}`)
 		.filter((file) => file.endsWith('.js'));
-	for (const file of functionFiles){
+	for (const file of functionFiles) {
 		require(`./functions/${folder}/${file}`)(client);
 	}
 }
