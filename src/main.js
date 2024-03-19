@@ -7,7 +7,7 @@ const fs = require('fs');
 
 const client = new Client({ intents: GatewayIntentBits.Guilds });
 client.commands = new Collection();
-const commandsList = [];
+client.commandList = [];
 
 const functionFolder = fs.readdirSync(`./src/functions`);
 for (const folder of functionFolder) {

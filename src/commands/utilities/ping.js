@@ -8,7 +8,6 @@ module.exports = {
 		const message = await interaction.deferReply({
 			fetchReply: true
 		});
-
 		const newMessage = `Latency equals ${client.ws.ping}\nClient ping equals ${message.createdTimestamp - interaction.createdTimestamp}`;
 		await interaction.editReply({
 			content: newMessage
