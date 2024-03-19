@@ -22,7 +22,6 @@ module.exports = (client) => {
         const rest = new REST({ version: "9" }).setToken(process.env.token);
         try {
             console.log("application (/) commands preparing...");
-
             await rest.put(Routes.applicationGuildCommands(clientID, guildID),{
                 body: client.commandList,
             });

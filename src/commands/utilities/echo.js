@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const wait = require('node:timers/promises').setTimeout;
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('echo')
@@ -8,7 +9,7 @@ module.exports = {
             option.setName('text')
             .setDescription("String to reply")
         ),
-	async execute(interaction) {
+	async execute(interaction, client) {
 		const newMessage = `${interaction.options.getString('text') ?? 'you sent empty message'}`;
 		await interaction.reply({
 			content: newMessage
