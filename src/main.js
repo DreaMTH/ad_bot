@@ -19,7 +19,7 @@ for (const folder of functionFolder) {
 	}
 }
 
-//MTIxOTM5ODU5NTk1NDk5OTMwOA.GHCE2h.KGHzulnXaywtXcz5alCpN3w7Yox1NOVHbsNMCw  token
+
 client.eventHandler();
 client.commandHandler();
 client.login(token);
