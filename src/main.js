@@ -18,7 +18,7 @@ for (const folder of functionFolder) {
 		require(`./functions/${folder}/${file}`)(client);
 	}
 }
-
+//MTIxOTM5ODU5NTk1NDk5OTMwOA.GeZXXa.si883lbqKJ5C_-236xkng47CiZplbYcr2Zzcsw
 
 client.eventHandler();
 client.commandHandler();
