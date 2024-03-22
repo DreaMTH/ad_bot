@@ -4,10 +4,15 @@ const userProfile = {
 		writable: true,
 		value: '',
 	},
+	displayName: {},
+	globalName: {},
+
 	userPfp: {
 		writable: true,
 		value: ''
-	}
+	},
+	userJoiningDate: {},
+
 };
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -28,20 +33,22 @@ module.exports = {
 		currentUser.displayName = userLink.displayName;
 		currentUser.globalName = userLink.globalName;
 		currentUser.userPfp = userLink.avatarURL();
+		currentUser.userJoiningDate = userLink.createdAt;
+		const color = await this.randomColor();
 		await interaction.reply(".");
 		await interaction.deleteReply();
 		const message = new EmbedBuilder()
 			.setTitle(`${currentUser.username}'s profile`)
 			.setAuthor({ name: "a" })
 			.setDescription(`@${currentUser.username} @${currentUser.displayName} @${currentUser.globalName}`)
-			.setColor(await this.randomColor())
+			.setColor(color)
 			.setImage(currentUser.userPfp)
 			.setThumbnail("https://media1.tenor.com/m/yDv6dGXKzy0AAAAC/homura-akemi-akemi-homura.gif")
 			.addFields(
-				{ name: 'Regular field title', value: 'Some value here' },
+				{ name: 'This discription would be taken from the db later', value: '*context*' },
 				{ name: '\u200B', value: '\u200B' },
-				{ name: 'Inline field title', value: 'Some value here', inline: true },
-				{ name: 'Inline field title', value: 'Some value here', inline: true },
+				{ name: 'Joined to the discord', value: `${currentUser.userJoiningDate}`, inline: true },
+				{ name: 'Joined to the server', value: 'Some value here', inline: true },
 			)
 			.setTimestamp()
 			.setFooter({ text: `@${interaction.user.tag}` });
