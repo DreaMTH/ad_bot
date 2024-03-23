@@ -5,16 +5,16 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('echo')
 		.setDescription('reply on my message.')
-        .addStringOption(option => 
-            option.setName('text')
-            .setDescription("String to reply")
-        ),
+		.addStringOption(option =>
+			option.setName('text')
+				.setDescription("String to reply")
+		),
 	async execute(interaction, client) {
 		const newMessage = `${interaction.options.getString('text') ?? 'you sent empty message'}`;
 		await interaction.reply({
 			content: newMessage
 		});
-        await wait(4_000);
-        await interaction.deleteReply();
+		await wait(4_000);
+		await interaction.deleteReply();
 	},
 };
