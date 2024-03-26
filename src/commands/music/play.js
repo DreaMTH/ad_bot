@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const wait = require('node:timers/promises').setTimeout;
 
 module.exports = {
@@ -23,12 +23,15 @@ module.exports = {
 			return;
 		}
 		const queue = await client.player.nodes.create(interaction.guild);
-		const newMessage = `song -> ${interaction.options.getString('song')} is requierd`;
 		await interaction.editReply({
-			content: newMessage
+			content: '.',
 		});
-		await wait(4_000);
 		await interaction.deleteReply();
+		const respone = new EmbedBuilder()
+			.setTitle('Songs list')
+			.setDescription(`${interaction.options.getString('song')} is required`)
+			.setColor(0x0099FF);
+		interaction.channel.send({ embeds: [respone] });
 	}
 
 };
