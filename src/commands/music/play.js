@@ -1,5 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const wait = require('node:timers/promises').setTimeout;
+const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -13,7 +12,8 @@ module.exports = {
 		),
 	async execute(interaction, client) {
 		const message = await interaction.deferReply({
-			fetchReply: true
+			fetchReply: true,
+			ephemeral: true,
 		});
 		console.log(interaction.member.voice.channel);
 		if (!interaction.member.voice.channel) {
