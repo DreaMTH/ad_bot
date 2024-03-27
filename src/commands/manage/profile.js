@@ -12,6 +12,7 @@ const userProfile = {
 		value: ''
 	},
 	userJoiningDate: {},
+	userJoinedGuild: {},
 
 };
 module.exports = {
@@ -29,6 +30,14 @@ module.exports = {
 		} else {
 			userLink = interaction.options.getUser('username');
 		}
+		//test region
+		await client.guilds.fetch(interaction.guild.id).then(guild => {
+			console.log(guild.id);
+			guild.members.fetch(userLink.id).then(user => {
+				currentUser.userJoinedGuild = user.joinedAt;
+			});
+		});
+		//region end
 		currentUser.username = userLink.tag;
 		currentUser.displayName = userLink.displayName;
 		currentUser.globalName = userLink.globalName;
@@ -48,7 +57,7 @@ module.exports = {
 				{ name: 'This discription would be taken from the db later', value: '*context*' },
 				{ name: '\u200B', value: '\u200B' },
 				{ name: 'Joined to the discord', value: `${currentUser.userJoiningDate}`, inline: true },
-				{ name: 'Joined to the server', value: 'Some value here', inline: true },
+				{ name: 'Joined to the server', value: `${currentUser.userJoinedGuild}`, inline: true },
 			)
 			.setTimestamp()
 			.setFooter({ text: `@${interaction.user.tag}` });

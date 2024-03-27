@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const { token } = process.env;
-const { Client, Collection, GatewayIntentBits, VideoQualityMode } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, VideoQualityMode, IntentsBitField } = require('discord.js');
 const { Player } = require('discord-player');
 const fs = require('fs');
 
