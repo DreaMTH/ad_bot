@@ -1,4 +1,6 @@
-const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder,
+	ActionRowBuilder, StringSelectMenuBuilder,
+	ComponentType } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -13,25 +15,36 @@ module.exports = {
 	async execute(interaction, client) {
 		const message = await interaction.deferReply({
 			fetchReply: true,
-			ephemeral: true,
+
 		});
 		console.log(interaction.member.voice.channel);
 		if (!interaction.member.voice.channel) {
 			interaction.editReply({
 				content: `You are not in the voice channe`,
+				ephemeral: true,
 			});
 			return;
 		}
-		const queue = await client.player.nodes.create(interaction.guild);
 		await interaction.editReply({
 			content: '.',
+			ephemeral: true,
 		});
 		await interaction.deleteReply();
-		const respone = new EmbedBuilder()
+		const searchResult = await client.player.search(interaction.options.getString('song'));
+		if (searchResult.isEmpty() || !searchResult.hasTracks()) {
+			return interaction.editReply({
+				content: 'No songs',
+				ephemeral: true,
+			});
+		}
+		const songList = searchResult.tracks.slice(0, 10);
+		console.log(songList);
+		const responeList = new EmbedBuilder()
 			.setTitle('Songs list')
-			.setDescription(`${interaction.options.getString('song')} is required`)
+			.setDescription(`${songList.join('\n')}`)
 			.setColor(0x0099FF);
-		interaction.channel.send({ embeds: [respone] });
+		await interaction.channel.send({ embeds: [responeList] });
+		await client.player.play(interaction.member.voice.channel, songList[0].url, interaction);
 	}
 
 };

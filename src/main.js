@@ -17,12 +17,9 @@ const client = new Client({
 });
 client.commands = new Collection();
 client.commandList = [];
-client.player = new Player(client, {
-	ytdlOptions: {
-		VideoQualityMode: 'highestaudio',
+client.player = new Player(client);
+client.player.extractors.loadDefault();
 
-	}
-});
 const functionFolder = fs.readdirSync(`./src/functions`);
 for (const folder of functionFolder) {
 	const functionFiles = fs

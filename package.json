@@ -24,6 +24,7 @@
     "discord-api-types": "^0.37.74",
     "discord-player": "^6.6.7",
     "discord.js": "^14.12.1",
+    "distube": "^4.1.1",
     "dotenv": "^16.4.5"
   }
 }
