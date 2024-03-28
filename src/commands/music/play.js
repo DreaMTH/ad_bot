@@ -13,33 +13,24 @@ module.exports = {
 				.setRequired(true)
 		),
 	async execute(interaction, client) {
-		const message = await interaction.deferReply({
-			fetchReply: true,
-
-		});
 		if (!interaction.member.voice.channel) {
-			interaction.editReply({
+			interaction.reply({
 				content: `You are not in the voice channe`,
 				ephemeral: true,
 			});
 			return;
 		}
-		await interaction.editReply({
-			content: '.',
-			ephemeral: true,
-		});
-		await interaction.deleteReply();
 		const searchResult = await client.player.search(interaction.options.getString('song'));
 		if (searchResult.isEmpty() || !searchResult.hasTracks()) {
-			return interaction.editReply({
+			return interaction.reply({
 				content: 'No songs',
 				ephemeral: true,
 			});
 		}
 		const songList = searchResult.tracks.slice(0, 10);
 		const responeList = new EmbedBuilder()
-			.setTitle('Songs list')
-			.setDescription(`${songList.join('\n')}`)
+			.setTitle('***Songs list***')
+			.setDescription(`*That songs were finded by your query...*`)
 			.setColor(0x0099FF);
 		const selectSong = new StringSelectMenuBuilder()
 			.setCustomId('selectSong')
@@ -49,15 +40,34 @@ module.exports = {
 			selectSong.addOptions(
 				new StringSelectMenuOptionBuilder()
 					.setLabel(`${counter}`)
-					.setDescription(`*${song}*`)
+					.setDescription(`${song}`)
 					.setValue(`${song.url}`)
 			);
+			responeList.addFields({
+				name: `${counter}. ${song}`,
+				value: `${song.url}`,
+			});
 			counter++;
 		}
 		const row = new ActionRowBuilder()
 			.addComponents(selectSong);
-		await interaction.channel.send({ embeds: [responeList], components: [row] });
-		await client.player.play(interaction.member.voice.channel, songList[0].url, interaction);
+		await interaction.reply({ embeds: [responeList], components: [row] }).then(async Message => {
+			const filter = i => i.user.id === interaction.user.id;
+			const collector = await Message.createMessageComponentCollector({ filter, time: 60_000 });
+			collector.on('collect', async (option) => {
+				console.log(option.values[0]);
+				await client.player.play(interaction.member.voice.channel, option.values[0], interaction);
+				return collector.stop();
+			});
+			collector.on('end', (msg, reason) => {
+				if (reason === 'time') {
+					return interaction.editReply({
+						content: 'Time is out',
+						ephemeral: true,
+					});
+				}
+			});
+		});
 	}
 
 };
