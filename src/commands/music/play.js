@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder,
 	ActionRowBuilder, StringSelectMenuBuilder,
-	ComponentType } = require('discord.js');
+	StringSelectMenuOptionBuilder, ComponentType } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -17,7 +17,6 @@ module.exports = {
 			fetchReply: true,
 
 		});
-		console.log(interaction.member.voice.channel);
 		if (!interaction.member.voice.channel) {
 			interaction.editReply({
 				content: `You are not in the voice channe`,
@@ -38,12 +37,26 @@ module.exports = {
 			});
 		}
 		const songList = searchResult.tracks.slice(0, 10);
-		console.log(songList);
 		const responeList = new EmbedBuilder()
 			.setTitle('Songs list')
 			.setDescription(`${songList.join('\n')}`)
 			.setColor(0x0099FF);
-		await interaction.channel.send({ embeds: [responeList] });
+		const selectSong = new StringSelectMenuBuilder()
+			.setCustomId('selectSong')
+			.setPlaceholder('Choose your song!');
+		let counter = 1;
+		for (const song of songList) {
+			selectSong.addOptions(
+				new StringSelectMenuOptionBuilder()
+					.setLabel(`${counter}`)
+					.setDescription(`*${song}*`)
+					.setValue(`${song.url}`)
+			);
+			counter++;
+		}
+		const row = new ActionRowBuilder()
+			.addComponents(selectSong);
+		await interaction.channel.send({ embeds: [responeList], components: [row] });
 		await client.player.play(interaction.member.voice.channel, songList[0].url, interaction);
 	}
 
